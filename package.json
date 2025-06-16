@@ -1,0 +1,49 @@
+{
+  "name": "electron_dedro",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client/ && npm run build && cd .. && electron-builder",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "electron . --dev",
+    "client": "cd client && npm start"
+  },
+  "build": {
+    "appId": "com.derby1537.DeDro",
+    "productName": "DeDro",
+    "files": [
+      "client/build/**/*",
+      "index.js",
+      "ble_defines.js",
+      "preload.js"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "icon": "./assets/DeDro.ico"
+    },
+    "mac": {
+      "icon": "./assets/DeDro.icns",
+      "extendInfo": {
+        "NSBluetoothAlwaysUsageDescription": "The app uses bluetooth to connect to your drone"
+      }
+    },
+    "linux": {
+      "icon": "./assets/DeDro.png"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^36.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-26"
+  }
+}

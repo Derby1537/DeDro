@@ -1,0 +1,177 @@
+.controller-outer-container {
+    padding: 50px;
+    color: #f0f0f0;
+    display: flex;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    flex-direction: column;
+    gap: 50px;
+}
+.controller-inner-container {
+    position: relative;
+    max-width: 600px;
+}
+
+.button {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+    /*display: block !important;*/
+}
+.face-button {
+    width: 6.9%; 
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+}
+
+#south-button {
+    right: 22.9%;
+    top: 40%;
+}
+#north-button {
+    right: 22.9%;
+    top: 17%;
+}
+#west-button {
+    right: 31%;
+    top: 29%;
+}
+#east-button {
+    right: 15%;
+    top: 29%;
+}
+
+.d-pad-button {
+    width: 3%;
+    aspect-ratio: 1/2.7;
+}
+#south-d-pad {
+    left: 25%;
+    top: 38%;
+}
+#north-d-pad {
+
+    left: 25%;
+    top: 20%;
+}
+#east-d-pad {
+    transform: rotate(90deg);
+    left: 31%;
+    top: 29%;
+}
+#west-d-pad {
+    transform: rotate(90deg);
+    left: 19%;
+    top: 29%;
+}
+
+.shoulder-button {
+    top: 0%;
+    width: 12%;
+    aspect-ratio: 4/1;
+    border-radius: 30% 30% 0% 0% !important;
+}
+#left-shoulder {
+    left: 24.6%; 
+}
+#right-shoulder {
+    right: 24%; 
+}
+
+.shoulder2-button {
+    top: 2%;
+    width: 5%;
+    aspect-ratio: 1.5/0.9;
+    border-radius: 30% 0% 80% 0% !important;
+}
+#left-shoulder2 {
+    left: 19%; 
+}
+#right-shoulder2 {
+    transform: rotateY(180deg);
+    right: 18.5%; 
+}
+
+.trigger2-bar {
+    position: absolute;
+    top: 5%;
+    height: 500%;
+    width: 200%;
+    background-color: #fafafa;
+    border: 1px solid #707070;
+    left: -380%;
+    /*border-radius: 0% 0% 30% 30%;*/
+}
+
+.trigger2-bar-fill {
+    width: 100%;
+    background-color: rgba(0,0,0,0.2);
+    /*border-radius: inherit;*/
+}
+
+.front-button {
+    width: 4%;
+    aspect-ratio: 1.6/1;
+    border-radius: 40%;
+    top: 28%;
+}
+#start-button {
+    right: 43.3%;
+}
+#select-button {
+    left: 43.3%;
+}
+
+.stick {
+    width: 14%;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    bottom: 25.4%;
+}
+#left-stick {
+    left: 27.5%;
+}
+#right-stick {
+    right: 27.5%;
+}
+
+.red-circle {
+    position: absolute;
+    width: 30%;
+    aspect-ratio: 1/1;
+    border-radius: 100%;
+    background-color: red;
+    transform: translate(-50%, -50%);
+}
+
+.bar {
+    width: 100%;
+    height: 10px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.fill-bar {
+    /*width: 50%;*/
+    height: 100%;
+    background-color: red;
+    border-radius: 3px;
+}
+.fill-bar-after {
+    width: 10px;
+    height: 20px;
+    border: 1px solid #a0a0a0;
+    background-color: #ffffff;
+    border-radius: 5px;
+    position: relative;
+    top: -50%;
+    /*left: -50%;*/
+    margin-left: -5px;
+}
+
+form > div {
+    margin-block: 10px;
+}
+

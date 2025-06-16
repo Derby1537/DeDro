@@ -1,0 +1,10 @@
+.top-bar {
+    color: #f0f0f0;
+    font-size: 2rem;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: rgba(0,0,0,0.1);
+    height: 50px;
+}

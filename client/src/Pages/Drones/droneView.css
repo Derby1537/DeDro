@@ -1,0 +1,105 @@
+.search-button {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 100% !important;
+    background-color: rgba(0,0,0,0.2) !important;
+    border-color: rgba(0,0,0,0.2) !important;
+}
+
+.search-button:hover {
+    background-color: rgba(0,0,0,0.1) !important;
+    border-color: rgba(0,0,0,0.1) !important;
+}
+
+.peripheral-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.peripheral-in-list {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    align-items: center;
+    border-bottom: 1px solid #0a0a0a;
+
+}
+
+.flight-control-overlay {
+    width: 100%;
+    aspect-ratio: 1/1;
+    max-width: 600px;
+    max-height: 600px;
+    border-radius: 100%;
+    border: 5px solid black;
+    overflow: hidden;
+    position: relative;
+}
+
+.horizon {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-position: center;
+    background-size: 200%;
+    background-repeat: repeat-x;
+    /*background-position-x: -50px;*/
+    /*background-position-y: -50px;*/
+    position: absolute;
+}
+
+.plane {
+    background-color: black;
+    position: absolute;
+    width: 100%;
+    height: 1%;
+    top: 51%;
+    /*top: 300px;*/
+}
+
+.plane-triangle {
+    width: 15%;
+    aspect-ratio: 3.5;
+    background-color: black;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    position: absolute;
+    top: 47.5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.terminal {
+    /*width: 600px;*/
+    height: 400px;
+    background-color: #101010;
+    color: #fafafa;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #555;
+    overflow: hidden;
+    font-family: monospace;
+}
+
+.terminal > .top-bar {
+    width: 100%;
+    height: 30px;
+    background-color: #555;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+}
+
+.terminal .outer-terminal {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.terminal  .inner-terminal {
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
