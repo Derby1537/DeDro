@@ -18,13 +18,13 @@ const ControllerLayout = ({ pressedButtons, axis }) => {
     })
 
     useEffect(() => {
-        const { LeftStickX, LeftStickY} = axis; 
+        const { LeftStickX, LeftStickY } = axis; 
         setLeftStickPosition({
             left: (LeftStickX * 50) + 50 + "%",
             top: (LeftStickY * 50) + 50 + "%",
         })
 
-        const { RightStickX, RightStickY} = axis; 
+        const { RightStickX, RightStickY } = axis; 
         setRightStickPosition({
             left: (RightStickX * 50) + 50 + "%",
             top: (RightStickY * 50) + 50 + "%",
