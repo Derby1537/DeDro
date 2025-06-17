@@ -14,6 +14,8 @@ contextBridge.exposeInMainWorld('electron', {
     },
     connectToDrone: (drone) => ipcRenderer.invoke('connect-to-drone', drone),
     disconnectFromDrone: () => ipcRenderer.send('disconnect-from-drone'),
+    subscribeToTerminal: () => ipcRenderer.send('subscribe-to-terminal'),
+    unsubscribeToTerminal: () => ipcRenderer.send('unsubscribe-to-terminal'),
     fetchDrones: () => ipcRenderer.send("fetch-drones"),
     sendCommand: (command) => ipcRenderer.invoke('send-command', command),
     getConfig: () => ipcRenderer.invoke("get-config"),
@@ -30,4 +32,10 @@ contextBridge.exposeInMainWorld('electron', {
     onARMING_CHAR: (callback) => {
         ipcRenderer.on('ARMING_CHAR', (_event, data) => callback(data))
     },
+    onTERM_CHAR: (callback) => {
+        ipcRenderer.on('TERM_CHAR', (_event, data) => callback(data))
+    },
+    onSTDERR_CHAR: (callback) => {
+        ipcRenderer.on('STDERR_CHAR', (_event, data) => callback(data))
+    }
 })

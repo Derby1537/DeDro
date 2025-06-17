@@ -189,8 +189,8 @@ ipcMain.handle('connect-to-drone', async (_event, drone) => {
                     }
                 }
             }
-            if(services[i].uuid === CONSOLE_SERV_UUID && services.length < 4) {
-                const characteristics = await services[i].discoverCharacteristicsAsync([TERM_CHAR_UUID, STDERR_CHAR_UUID]);
+            if(services[i].uuid === CONSOLE_SERV_UUID && i !== 0) {
+                const characteristics = await services[i].discoverCharacteristicsAsync([]);
                 for(let j = 0; j < characteristics.length; j++) {
                     if(characteristics[j].uuid === TERM_CHAR_UUID) {
                         droneBluetoothPeripheral.TERM_CHAR_UUID = characteristics[j];
@@ -271,12 +271,16 @@ ipcMain.handle('send-command', async (_event, command) => {
 
 ipcMain.on('subscribe-to-terminal', async () => {
     if (!droneBluetoothPeripheral) return;
-    if(!droneBluetoothPeripheral.TERM_CHAR_UUID) return;
-    if(!droneBluetoothPeripheral.STDERR_CHAR_UUID) return;
 
     try {
         await droneBluetoothPeripheral.TERM_CHAR_UUID.subscribeAsync();
+        console.log("iscritto");
+        const buff = new ArrayBuffer( await droneBluetoothPeripheral.TERM_CHAR_UUID.readAsync());
+
+        console.log(buff);
+
         droneBluetoothPeripheral.TERM_CHAR_UUID.on('data', (data, _isNotification) => {
+            console.log(data);
             if (win) {
                 win.webContents.send('TERM_CHAR', data);
             }
@@ -284,6 +288,7 @@ ipcMain.on('subscribe-to-terminal', async () => {
 
         await droneBluetoothPeripheral.STDERR_CHAR_UUID.subscribeAsync();
         droneBluetoothPeripheral.STDERR_CHAR_UUID.on('data', (data, _isNotification) => {
+            console.error(data);
             if (win) {
                 win.webContents.send('STDERR_CHAR', data);
             }
@@ -295,9 +300,6 @@ ipcMain.on('subscribe-to-terminal', async () => {
 })
 
 ipcMain.on('unsubscribe-to-terminal', async () => {
-    if(!droneBluetoothPeripheral.TERM_CHAR_UUID) return;
-    if(!droneBluetoothPeripheral.STDERR_CHAR_UUID) return;
-
     try {
         await droneBluetoothPeripheral.TERM_CHAR_UUID.unsubscribeAsync();
         await droneBluetoothPeripheral.STDERR_CHAR_UUID.unsubscribeAsync();

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const Terminal = () => {
     const [terminalText, setTerminalText] = useState([]);
+    const inputRef = useRef(null);
 
     const getTime = () => {
         const now = new Date();
@@ -15,7 +16,35 @@ const Terminal = () => {
 
     useEffect(() => {
         if(!window.electron) return;
+
+        window.electron.subscribeToTerminal();
+        const decoder = new TextDecoder("utf-8");
+
+        window.electron.onTERM_CHAR((data) => {
+            const view = new Int8Array(data.buffer)
+            const str = decoder.decode(view);
+            const timestamp = getTime();
+            setTerminalText((prev) => [...prev, <div key={timestamp}>&lt;{timestamp}&gt;{str}</div>]);
+        })
+        window.electron.onSTDERR_CHAR((data) => {
+            const view = new Int8Array(data.buffer)
+            const str = decoder.decode(view);
+            const timestamp = getTime();
+            setTerminalText((prev) => [...prev, <div className="text-danger" key={timestamp}>&lt;{timestamp}&gt;{str}</div>]);
+        })
+
+
+        const timestamp = getTime();
+        setTerminalText((prev) => [...prev, <div key={timestamp}>&lt;{timestamp}&gt;Connected to drone</div>]);
+
+        return () => {
+            window.electron.unsubscribeToTerminal();
+        }
     }, []);
+
+    useEffect(() => {
+        inputRef.current?.scrollIntoView();
+    }, [terminalText])
 
     return (
         <div className="d-flex flex-column gap-3">
@@ -24,6 +53,7 @@ const Terminal = () => {
                 <div className="outer-terminal">
                     <div className="inner-terminal">
                         {terminalText}
+                        <div ref={inputRef}></div>
                     </div>
                 </div>
             </div>
