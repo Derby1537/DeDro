@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [acc, setAcc] = useState([]);
     const [gyro, setGyro] = useState([]);
-    const [mag, setMag] = useState([]);
+    const [eul, setEul] = useState([]);
     const [battery, setBattery] = useState(0);
     const [rssi, setRssi] = useState(0);
     const [pressure, setPressure] = useState(0);
@@ -121,7 +121,7 @@ export const SocketProvider = ({ children }) => {
             const battery = view[3] / 10;
             setBattery(battery);
 
-            const temperature = view[4];
+            const temperature = view[4] / 10;
             setTemperature(temperature);
 
             const rssi = view[5] / 10;
@@ -132,9 +132,9 @@ export const SocketProvider = ({ children }) => {
             const view = new Int16Array(data.buffer);
             let timestamp = (new Uint16Array(data.buffer)[0] << 3) * 1.0 / 1000;
             
-            const accX = view[1] / (Math.PI * 1000) * 180;
-            const accY = view[2] / (Math.PI * 1000) * 180;
-            const accZ = view[3] / (Math.PI * 1000) * 180;
+            const accX = view[1];
+            const accY = view[2];
+            const accZ = view[3];
             const newAccData = {
                 timestamp: timestamp,
                 x: accX,
@@ -154,16 +154,16 @@ export const SocketProvider = ({ children }) => {
             }
             setGyro(newGyroData);
 
-            const magX = view[7];
-            const magY = view[8];
-            const magZ = view[9];
-            const newMagData = {
+            const eulX = view[7] / (Math.PI * 1000) * 180;
+            const eulY = view[8] / (Math.PI * 1000) * 180;
+            const eulZ = view[9] / (Math.PI * 1000) * 180;
+            const newEulData = {
                 timestamp: timestamp,
-                x: magX,
-                y: magY,
-                z: magZ,
+                x: eulX,
+                y: eulY,
+                z: eulZ,
             }
-            setMag(newMagData);
+            setEul(newEulData);
         });
         window.electron.onARMING_CHAR((data) => {
             const view = new Int8Array(data.buffer);
@@ -196,7 +196,7 @@ export const SocketProvider = ({ children }) => {
             markAsConnecting,
             acc,
             gyro,
-            mag,
+            eul,
             battery,
             rssi,
             temperature,

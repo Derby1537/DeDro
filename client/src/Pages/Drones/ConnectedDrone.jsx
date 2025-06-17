@@ -12,6 +12,7 @@ const ConnectedDrone = ({ drone }) => {
     const { commands, calibrateDrone, armDrone } = useController();
     const [calibrateButtonText, setCalibrateButtonText] = useState("Calibrate");
     const commandsRef = useRef(commands);
+    const [termDisp, setTermDisp] = useState(false);
 
     const pressCalibrate = () => {
         setCalibrateButtonText("Calibrating")
@@ -77,8 +78,12 @@ const ConnectedDrone = ({ drone }) => {
                 <Data/>
             </div>
             <div className="d-flex flex-column">
-                <h2>Bluetooth terminal</h2>
-                <Terminal/>
+                <h2>
+                    Bluetooth terminal
+                    <Button className="m-2" onClick={() => setTermDisp(prev => !prev)}>{termDisp ? "Hide" : "Show"}</Button>
+                </h2>
+                {termDisp && <Terminal/>}
+                
             </div>
         </div>
     );

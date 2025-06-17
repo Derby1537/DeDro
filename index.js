@@ -10,6 +10,8 @@ let win;
 let droneBluetoothPeripheral = null;
 let discoveredPeripheral = {};
 let bluetoothPeripherals = {};
+const commandsArray = [];
+let commandsInterval;
 
 const { 
     HW_SERV_UUID,
@@ -276,14 +278,27 @@ ipcMain.handle('send-command', async (_event, command) => {
     }
 
     const dataToSend = Buffer.from([0, yaw, throttle, roll, pitch, 0, commandforCalibration]);
+    commandsArray.push(dataToSend);
+    return;
     try {
-        await droneBluetoothPeripheral.MAX_CHAR_UUID.write(dataToSend);
+        
+        droneBluetoothPeripheral.MAX_CHAR_UUID.write(dataToSend);
     }
     catch (e) {
         console.log(e);
     }
-    return;
 })
+
+commandsInterval = setInterval(() => {
+    if (!droneBluetoothPeripheral) return;
+    if (!droneBluetoothPeripheral.MAX_CHAR_UUID) return;
+
+    const commandToSend = commandsArray.shift();
+    if (!commandToSend) return;
+
+    
+    droneBluetoothPeripheral.MAX_CHAR_UUID.write(commandToSend);
+}, 20);
 
 ipcMain.on('disconnect-from-drone', async () => {
     if(!droneBluetoothPeripheral) return;

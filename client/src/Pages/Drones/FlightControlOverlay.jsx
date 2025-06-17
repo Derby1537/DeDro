@@ -1,76 +1,33 @@
-import React, { useEffect, useState } from "react";
-import horizon from "./../../assets/horizon2.png"
-import { useController } from "../../Contexts/ControllerContext";
+import React, { useEffect, useRef, useState } from "react";
+import horizon from "./../../assets/horizon5.png"
+import { useSocket } from "../../Contexts/SocketContext";
 
 const FlightControlOverlay = () => {
-    const { pitch, roll, yaw } = useController();
+    const { eul } = useSocket();
+    const eulRef = useRef(eul);
     const [left, setLeft] = useState("0px");
     const [top, setTop] = useState("-550px");
     const [rotate, setRotate] = useState('0deg');
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if(yaw && yaw !== 127.5) {
-                const valueToAdd = (yaw - 127.5) * 0.2;
-                const newValue = parseInt(left) - valueToAdd + 'px';
-                setLeft(newValue);
-            }
-        }, 16);
-        return () => {
-            clearInterval(interval);
-        }
-    }, [yaw, left])
+        eulRef.current = eul;
+    }, [eul])
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if(pitch && pitch !== 127.5) {
-                const valueToAdd = (pitch - 127.5) * 0.2;
-                const newValue = parseInt(top) - valueToAdd + 'px';
-                if(parseInt(newValue) < -250 && parseInt(newValue) > -750) {
-                    setTop(newValue);
-                }
-            }
-            if(pitch && pitch === 127.5) {
-                let newValue;
-                if(parseInt(top) > -540) {
-                    newValue = parseInt(top) - 10 + 'px';
-                }
-                else if (parseInt(top) < -560) {
-                    newValue = parseInt(top) + 10 + 'px';
-                }
-                else return;
-                setTop(newValue);
-            }
-        }, 16);
-        return () => {
-            clearInterval(interval);
-        }
-    }, [pitch, top])
+            const pitch = ((eulRef.current.x - 130) * 5) + 'px';
+            setTop(pitch);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if(roll && roll !== 127.5) {
-                const valueToAdd = (roll - 127.5) * 0.05;
-                const newValue = (parseInt(rotate) - valueToAdd) + 'deg';
-                if(parseInt(newValue) > -30 && parseInt(newValue) < 30) {
-                    setRotate(newValue);
-                }
-            }
-            if(roll && roll === 127.5) {
-                let newValue;
-                if(parseInt(rotate) > 0) {
-                    newValue = (parseInt(rotate) - 0.2) + 'deg';
-                }
-                else {
-                    newValue = (parseInt(rotate) + 0.2) + 'deg';
-                }
-                setRotate(newValue);
-            }
+            const roll = (-(eulRef.current.y)) + 'deg';
+            setRotate(roll);
+
+            const yaw = ((eulRef.current.z) * 5) + 'px';
+            setLeft(yaw);
         }, 16);
         return () => {
             clearInterval(interval);
         }
-    }, [roll, rotate])
+    }, [])
 
     return (
         <div className="flight-control-overlay">
