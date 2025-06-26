@@ -10,6 +10,9 @@ import { SocketProvider } from "./Contexts/SocketContext";
 import { ControllerProvider } from "./Contexts/ControllerContext";
 
 const App = () => {
+    useEffect(() => {
+        document.title = "DeDro";
+    })
     return (
         <SocketProvider>
             <ControllerProvider>

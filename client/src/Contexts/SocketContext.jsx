@@ -28,6 +28,7 @@ export const SocketProvider = ({ children }) => {
 
     const connectToDrone = (drone) => {
         if(!window.electron) return;
+        markAsConnecting(drone);
         window.electron.connectToDrone(drone).then(status => {
             if (status?.error) {
                 alert(status.error);
@@ -193,7 +194,6 @@ export const SocketProvider = ({ children }) => {
             isLoading,
             connectToDrone,
             disconnectFromDrone,
-            markAsConnecting,
             acc,
             gyro,
             eul,

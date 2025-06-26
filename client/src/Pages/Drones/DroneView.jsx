@@ -10,14 +10,13 @@ import Data from "./Data";
 import { useController } from "../../Contexts/ControllerContext";
 
 const DroneView = () => {
-    const { isDroneConnected, isBluetoothOn, availableDrones, isLoading, fetchDrones, connectToDrone, markAsConnecting } = useSocket();
+    const { isDroneConnected, isBluetoothOn, availableDrones, isLoading, fetchDrones, connectToDrone } = useSocket();
     const { calibrateDrone, armDrone } = useController();
 
     const initiateConnection = (drone) => {
         for(let i = 0; i < availableDrones.length; i++) {
             if(availableDrones[i].connecting === true) return;
         }
-        markAsConnecting(drone);
         connectToDrone(drone);
     }
 
